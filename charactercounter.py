@@ -20,7 +20,7 @@ root = tree.getroot()
 wordCount = {}
 
 # Settings
-numRows = 5
+numRows = 7
 
 bannedCharacters = ["，", "Ｖ", "S", "ｖ", "ｓ", "+", " ", "。", ","]
 
@@ -35,14 +35,27 @@ for cards in root.findall('cards'):
                       
 sortedWords = sorted(wordCount.items(), key=operator.itemgetter(1))
 
-outputText = ""
 newLineCounter = 0
+outputText = "-------------------------------------------------\n"
+outputText += "Characters that only appear in other words\n"
+outputText += "-------------------------------------------------\n"
+firstSection = True
 for word, count in sortedWords:
+    if firstSection and count[0]:
+        firstSection = False
+        if outputText[len(outputText) - 1] != "\n":
+            outputText += "\n"
+        outputText += "-------------------------------------------------\n"
+        outputText += "Characters that appear in their own card\n"
+        outputText += "-------------------------------------------------\n"
+        
     newLineCounter += 1
-    outputText += str(word) + ": " +  str(count) + "\t"
+    outputText += str(word) + ": " +  str(count[1]) + "\t"
     if (newLineCounter > numRows):
         newLineCounter = 0
         outputText += "\n"
+        
+
     
 outputText += "\ntotal characters known: " + str(len(sortedWords))
 
