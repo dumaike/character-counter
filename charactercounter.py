@@ -2,22 +2,28 @@ import xml.etree.ElementTree as ET
 import operator
 
 def countCharacter(character, numChars):
-    if character in bannedCharacters:
-        return
+    newSoloCharacter = False
     
-    if character in wordCount:
-        isSingled = wordCount[character][0]
-        if (not isSingled and numChars == 1):
-            isSingled = True
+    if character not in bannedCharacters:        
+        if character in wordCount:
+            isSingled = wordCount[character][0]
+            if not isSingled and numChars == 1:
+                newSoloCharacter = True
+                isSingled = True
+                
+            wordCount[character] = (isSingled, wordCount[character][1] + 1)
+        else:
+            newSoloCharacter = numChars == 1
+            wordCount[character] = (newSoloCharacter, 1)
             
-        wordCount[character] = (isSingled, wordCount[character][1] + 1)
-    else:
-        wordCount[character] = (numChars == 1, 1)
+    return newSoloCharacter
+
 
 tree = ET.parse('pleco2.xml')
 root = tree.getroot()
 
 wordCount = {}
+soloCardCharacters = 0
 
 # Settings
 numRows = 6
@@ -31,13 +37,21 @@ for cards in root.findall('cards'):
                 charset = headword.get('charset')
                 if (charset == "tc"):
                     for character in headword.text:
-                        countCharacter(character, len(headword.text))
+                        if (countCharacter(character, len(headword.text))):
+                            soloCardCharacters += 1
                       
 sortedWords = sorted(wordCount.items(), key=operator.itemgetter(1))
 
 newLineCounter = 0
+
 outputText = "-------------------------------------------------\n"
-outputText += "Characters that only appear in other words\n"
+outputText += "Total characters known: " + str(len(sortedWords))
+outputText += "\nFormat - 'Character : Number of cards it appears on'\n"
+
+outputText += "-------------------------------------------------\n"
+outputText += "Characters that only appear in other words: \n"
+nonSoloCharacters = len(sortedWords) - soloCardCharacters
+outputText += str(nonSoloCharacters) + " (" + str(round(nonSoloCharacters*100/(len(sortedWords)), 2)) + "%)\n"
 outputText += "-------------------------------------------------\n"
 firstSection = True
 for word, count in sortedWords:
@@ -46,7 +60,8 @@ for word, count in sortedWords:
         if outputText[len(outputText) - 1] != "\n":
             outputText += "\n"
         outputText += "-------------------------------------------------\n"
-        outputText += "Characters that appear in their own card\n"
+        outputText += "Characters that have their own card: \n"
+        outputText += str(soloCardCharacters) + " (" + str(round(soloCardCharacters*100/(len(sortedWords)), 2)) + "%)\n"
         outputText += "-------------------------------------------------\n"
         
     newLineCounter += 1
@@ -54,10 +69,6 @@ for word, count in sortedWords:
     if (newLineCounter >= numRows):
         newLineCounter = 0
         outputText += "\n"
-        
-
-    
-outputText += "\ntotal characters known: " + str(len(sortedWords))
 
 print(outputText)
     

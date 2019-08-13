@@ -1,5 +1,9 @@
 -------------------------------------------------
-Characters that only appear in other words
+Total characters known: 1621
+Format - 'Character : Number of cards it appears on'
+-------------------------------------------------
+Characters that only appear in other words: 
+960 (59.22%)
 -------------------------------------------------
 汁: 1	啤: 1	筷: 1	勺: 1	校: 1	今: 1	
 昨: 1	幹: 1	厲: 1	哎: 1	脅: 1	裙: 1	
@@ -162,7 +166,8 @@ Characters that only appear in other words
 覺: 9	性: 9	感: 10	安: 10	節: 10	肉: 11	
 電: 12	機: 13	車: 13	日: 14	語: 15	色: 16	
 -------------------------------------------------
-Characters that appear in their own card
+Characters that have their own card: 
+661 (40.78%)
 -------------------------------------------------
 她: 1	都: 1	羊: 1	嗎: 1	鳥: 1	誰: 1	
 二: 1	八: 1	九: 1	十: 1	隻: 1	嵗: 1	
@@ -275,4 +280,3 @@ Characters that appear in their own card
 到: 18	出: 18	生: 19	來: 20	心: 20	手: 21	
 上: 22	人: 23	天: 23	一: 26	大: 28	不: 33	
 子: 44	
-total characters known: 1621
