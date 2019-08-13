@@ -20,7 +20,7 @@ root = tree.getroot()
 wordCount = {}
 
 # Settings
-numRows = 7
+numRows = 6
 
 bannedCharacters = ["，", "Ｖ", "S", "ｖ", "ｓ", "+", " ", "。", ","]
 
