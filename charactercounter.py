@@ -51,7 +51,7 @@ for word, count in sortedWords:
         
     newLineCounter += 1
     outputText += str(word) + ": " +  str(count[1]) + "\t"
-    if (newLineCounter > numRows):
+    if (newLineCounter >= numRows):
         newLineCounter = 0
         outputText += "\n"
         
