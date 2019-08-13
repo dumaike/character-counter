@@ -1,5 +1,6 @@
 -------------------------------------------------
-Total characters known: 1621
+Total cards in database: 2628
+Total characters in database: 1621
 Format - 'Character : Number of cards it appears on'
 -------------------------------------------------
 Characters that only appear in other words: 

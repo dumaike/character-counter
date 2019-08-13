@@ -24,6 +24,7 @@ root = tree.getroot()
 
 wordCount = {}
 soloCardCharacters = 0
+totalCards = 0
 
 # Settings
 numRows = 6
@@ -33,6 +34,7 @@ bannedCharacters = ["，", "Ｖ", "S", "ｖ", "ｓ", "+", " ", "。", ","]
 for cards in root.findall('cards'):
     for card in cards.findall('card'):
         for entry in card.findall('entry'):
+            totalCards += 1
             for headword in entry.findall('headword'):
                 charset = headword.get('charset')
                 if (charset == "tc"):
@@ -45,8 +47,9 @@ sortedWords = sorted(wordCount.items(), key=operator.itemgetter(1))
 newLineCounter = 0
 
 outputText = "-------------------------------------------------\n"
-outputText += "Total characters known: " + str(len(sortedWords))
-outputText += "\nFormat - 'Character : Number of cards it appears on'\n"
+outputText += "Total cards in database: " + str(totalCards) + "\n"
+outputText += "Total characters in database: " + str(len(sortedWords)) + "\n"
+outputText += "Format - 'Character : Number of cards it appears on'\n"
 
 outputText += "-------------------------------------------------\n"
 outputText += "Characters that only appear in other words: \n"
