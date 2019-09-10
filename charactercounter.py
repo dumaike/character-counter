@@ -19,7 +19,7 @@ def countCharacter(character, numChars):
     return newSoloCharacter
 
 
-tree = ET.parse('pleco2.xml')
+tree = ET.parse('pleco3.xml')
 root = tree.getroot()
 
 wordCount = {}
@@ -29,18 +29,24 @@ totalCards = 0
 # Settings
 numRows = 6
 
-bannedCharacters = ["，", "Ｖ", "S", "ｖ", "ｓ", "+", " ", "。", ","]
+bannedCharacters = ["，", " ", ","]
+#bannedCharacters = ["，", "Ｖ", "S", "ｖ", "ｓ", "+", " ", "。", ","]
 
 for cards in root.findall('cards'):
     for card in cards.findall('card'):
-        for entry in card.findall('entry'):
-            totalCards += 1
-            for headword in entry.findall('headword'):
-                charset = headword.get('charset')
-                if (charset == "tc"):
-                    for character in headword.text:
-                        if (countCharacter(character, len(headword.text))):
-                            soloCardCharacters += 1
+        isGrammar = False
+        for catassign in card.findall('catassign'):
+            if (catassign.get('category') == "Grammar"):
+                isGrammar = True
+        if isGrammar == False:
+            for entry in card.findall('entry'):
+                totalCards += 1
+                for headword in entry.findall('headword'):
+                    charset = headword.get('charset')
+                    if (charset == "tc"):
+                        for character in headword.text:
+                            if (countCharacter(character, len(headword.text))):
+                                soloCardCharacters += 1
                       
 sortedWords = sorted(wordCount.items(), key=operator.itemgetter(1))
 
