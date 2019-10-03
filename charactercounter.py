@@ -19,7 +19,7 @@ def countCharacter(character, numChars):
     return newSoloCharacter
 
 
-tree = ET.parse('pleco3.xml')
+tree = ET.parse('flash-1910030701.xml')
 root = tree.getroot()
 
 wordCount = {}
@@ -35,10 +35,14 @@ bannedCharacters = ["，", " ", ","]
 for cards in root.findall('cards'):
     for card in cards.findall('card'):
         isGrammar = False
+        numReviews = 0
         for catassign in card.findall('catassign'):
             if (catassign.get('category') == "Grammar"):
                 isGrammar = True
-        if isGrammar == False:
+        for scoreinfo in card.findall('scoreinfo'):
+            numReviews = scoreinfo.get('correct')
+            numReviews = numReviews + scoreinfo.get('incorrect')
+        if isGrammar == False and numReviews != 0:
             for entry in card.findall('entry'):
                 totalCards += 1
                 for headword in entry.findall('headword'):
