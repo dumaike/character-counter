@@ -1,7 +1,7 @@
 import xml.etree.ElementTree as ET
 import operator
 
-def countCharacter(character, numChars):
+def countCharacter(character, numChars, firstReviewedTime):
     newSoloCharacter = False
     
     if character not in bannedCharacters:        
@@ -11,10 +11,14 @@ def countCharacter(character, numChars):
                 newSoloCharacter = True
                 isSingled = True
                 
-            wordCount[character] = (isSingled, wordCount[character][1] + 1)
+            cachedReviewedTime = wordCount[character][2]
+            if (firstReviewedTime < cachedReviewedTime):
+                cachedReviewedTime = firstReviewedTime
+                
+            wordCount[character] = [isSingled, wordCount[character][1] + 1, cachedReviewedTime]
         else:
             newSoloCharacter = numChars == 1
-            wordCount[character] = (newSoloCharacter, 1)
+            wordCount[character] = [newSoloCharacter, 1, firstReviewedTime]
             
     return newSoloCharacter
 
@@ -25,6 +29,7 @@ root = tree.getroot()
 wordCount = {}
 soloCardCharacters = 0
 totalCards = 0
+oldestReviewedCard = 0
 
 # Settings
 numRows = 6
@@ -36,12 +41,17 @@ for cards in root.findall('cards'):
     for card in cards.findall('card'):
         isGrammar = False
         numReviews = 0
+        firstReviewedTime = 0
         for catassign in card.findall('catassign'):
             if (catassign.get('category') == "Grammar"):
                 isGrammar = True
         for scoreinfo in card.findall('scoreinfo'):
             numReviews = scoreinfo.get('correct')
             numReviews = numReviews + scoreinfo.get('incorrect')
+            if (scoreinfo.get('firstreviewedtime') != None):
+                firstReviewedTime = int(scoreinfo.get('firstreviewedtime'))
+        if (oldestReviewedCard == 0 or firstReviewedTime > oldestReviewedCard):
+            oldestReviewedCard = firstReviewedTime
         if isGrammar == False and numReviews != 0:
             for entry in card.findall('entry'):
                 totalCards += 1
@@ -49,10 +59,11 @@ for cards in root.findall('cards'):
                     charset = headword.get('charset')
                     if (charset == "tc"):
                         for character in headword.text:
-                            if (countCharacter(character, len(headword.text))):
+                            if (countCharacter(character, len(headword.text), firstReviewedTime)):
                                 soloCardCharacters += 1
                       
-sortedWords = sorted(wordCount.items(), key=operator.itemgetter(1))
+print(wordCount.items())
+sortedWords = sorted(wordCount.items(), key=lambda x: (x[1][0], x[1][1], x[1][2]))
 
 newLineCounter = 0
 
