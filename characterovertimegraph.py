@@ -28,7 +28,7 @@ def flattenArray(arrayToFlatten):
         arrayToFlatten[i] = arrayToFlatten[i] - startingValue
     
         
-tree = ET.parse('pleco2.xml')
+tree = ET.parse('pleco4.xml')
 root = tree.getroot()
 
 timestamps = [[],[],[],[]]
