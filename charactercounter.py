@@ -22,8 +22,7 @@ def countCharacter(character, numChars, firstReviewedTime):
             
     return newSoloCharacter
 
-
-tree = ET.parse('flash-1910030701.xml')
+tree = ET.parse('pleco4.xml')
 root = tree.getroot()
 
 wordCount = {}
