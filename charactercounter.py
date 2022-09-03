@@ -22,7 +22,7 @@ def countCharacter(character, numChars, firstReviewedTime):
             
     return newSoloCharacter
 
-tree = ET.parse('pleco5.xml')
+tree = ET.parse('pleco6.xml')
 root = tree.getroot()
 
 wordCount = {}
